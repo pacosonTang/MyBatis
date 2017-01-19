@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mybatis.mapper.RoleMapper">
+	<resultMap type="role" id="roleMap"> <!-- resultMap 提供了映射规则 -->
+		<constructor>
+			<idArg column="id" javaType="int"/>
+			<arg column="role_name" javaType="string"/>
+		</constructor>
+		<id column="id" property="id" javaType="long" jdbcType="BIGINT" />
+		<result column="role_name" property="roleName" javaType="string" jdbcType="VARCHAR" />
+		<result column="note" property="note" typeHandler="com.mybatis.typeHandler.MyStringTypeHandler"/>
+	</resultMap>
+	
+	<select id="getRole" parameterType="long" resultMap="roleMap">
+		select * from t_role where id = #{id}
+	</select>
+	
+	<!--  test for 4.6 sql元素  
+	<sql id="t_role_props">
+		r.id, r.role_name, r.note
+	</sql>
+	<select id="getRoleBySqlElement" parameterType="long" resultMap="roleMap">
+		select <include refid="t_role_props" /> from t_role r where id = #{id}
+	</select>
+	-->
+	
+	<!-- 在 sql中 制定参数，即创建一个参数prefix  -->
+	<sql id="t_role_props">
+		#{prefix}.id, #{prefix}.role_name, #{prefix}.note
+	</sql>
+	<select id="getRoleBySqlElement" parameterType="long" resultMap="roleMap">
+		select 
+			<include refid="t_role_props">
+				<property name="prefix" value="r"/> 
+			</include> 
+		from t_role r where id = #{id}
+	</select>
+	
+	<select id="findRole" parameterType="string" resultMap="roleMap">
+		select id, role_name, note from t_role where role_name like concat('%', 
+		#{roleName javaType=string, jdbcType=VARCHAR, typeHandler=com.mybatis.typeHandler.MyStringTypeHandler},'%')
+	</select>
+	
+	<!-- chapter4: findRoleByMap 方法1：使用 Map键值对对象 传递参数-->
+	<!-- chapter4: findRoleByAnnotation 方法2：推荐使用注解传递参数,无需定义参数类型 -->
+	<select id="findRoleByAnnotation" resultMap="roleMap">
+		select * from t_role where role_name like concat('%',#{roleName},'%')
+			and note like concat('%',#{note},'%')
+	</select>
+	
+	<!-- chapter4: findRoleByAnnotation 方法3：使用java bean 传递参数 -->
+	<select id="findRoleByParam" parameterType="com.mybatis.params.RoleParam"
+		 resultMap="roleMap">
+		select * from t_role where role_name like concat('%',#{roleName},'%')
+			and note like concat('%',#{note},'%')
+	</select>
+	
+	<!-- chapter4: 插入实例 
+	<insert id="insertRole" parameterType="role" >
+		insert into t_role(role_name, note) values (#{roleName}, #{note})
+	</insert>
+	-->
+	<!-- chapter4：插入后自动返回主键 -->
+	<insert id="insertRoleByAutoPrimaryKey" parameterType="role" 
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_role(role_name, note) values (#{roleName}, #{note})
+	</insert>
+	
+	<!-- chapter4: mybatis传送sql本身(列名) -->
+	<select id="findColumn" parameterType="string" resultType="string">
+		select ${column} from ${table} limit 10 offset 0
+	</select>
+	
+	<delete id="deleteRole" parameterType="long">
+		delete from t_role where id = #{id}
+	</delete>
+</mapper>
