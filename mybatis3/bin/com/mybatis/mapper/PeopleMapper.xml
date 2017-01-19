@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mybatis.mapper.PeopleMapper">
+	<resultMap type="people" id="peopleMap"> <!-- resultMap 提供了映射规则 -->
+		<id column="id" property="id" javaType="long" jdbcType="BIGINT" />
+		<result column="people_name" property="peopleName" javaType="string" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result column="note" property="note" typeHandler="com.mybatis.typeHandler.MyStringTypeHandler"/>
+	</resultMap>
+	
+	<!-- 系统定义的数据库标签 databaseId='mysql' -->	
+	<select id="getPeople" parameterType="long" resultMap="peopleMap" databaseId="mysql">
+		select * from t_people where id = #{id}
+	</select>
+	
+	<!-- 使用 系统定义的  枚举类型处理器
+	<insert id="insertPeople" parameterType="people" >
+		insert into t_people(people_name, sex, note) values (#{peopleName}, 
+			#{sex, typeHandler=org.apache.ibatis.type.EnumTypeHandler}, #{note})
+	</insert>
+	 -->
+	 <insert id="insertPeople" parameterType="people" >
+		insert into t_people(people_name, sex, note) values (#{peopleName}, 
+			#{sex, typeHandler=com.mybatis.typeHandler.SexEnumTypeHandler}, #{note})
+	</insert> <!--  自定义枚举类型处理器 -->
+	
+	<delete id="deletePeople" parameterType="long">
+		delete from t_people where id = #{id}
+	</delete>
+	
+</mapper>
