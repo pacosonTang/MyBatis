@@ -5,5 +5,5 @@ import org.apache.ibatis.annotations.Param;
 import com.mybatis.po.Card;
 
 public interface CardMapper {
-	Card findCardByStuId(@Param("stuId")int stuId);
+	Card findCardByCardId(@Param("cardId")int cardId);
 }

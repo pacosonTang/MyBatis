@@ -1,11 +1,14 @@
 package com.mybatis.po;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("student") // 自定义别名
 public class Student {
 	private int id;
 	private String name;
 	private Card card;
 	
-	public Student(int id, String name, Card card) {
+	public Student(Integer id, String name, Card card) {
 		this.id = id;
 		this.name = name;
 		this.card = card;
@@ -13,9 +16,6 @@ public class Student {
 	public Student(String name, Card card) {
 		this.name = name;
 		this.card = card;
-	}
-	public Student(String name){
-		this.name = name;
 	}
 			
 	public int getId() {
@@ -41,6 +41,6 @@ public class Student {
 	}
 	@Override
 	public String toString() {
-		return "id = " + id + ", name = " + name + ", card = " + card;
+		return "Student [id=" + id + ", name=" + name + ", card=" + card + "]";
 	}
 }

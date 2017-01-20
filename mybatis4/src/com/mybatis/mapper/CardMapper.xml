@@ -3,11 +3,12 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.mybatis.mapper.CardMapper">
-		<resultMap type="com.mybatis.po.Card" id="cardMap">
+		<resultMap type="card" id="cardMap">
 			<id property="id" column="id"/>
-			<result property="stuId" column="stu_id"/>
+			<result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>
+			<result property="surplus" column="surplus" javaType="BigDecimal" jdbcType="DECIMAL"/>
 		</resultMap>
-		<select id="findCardByStuId" parameterType="int" resultMap="cardMap">
-			select id, stu_id from t_card where stu_id=${stuId}
+		<select id="findCardByCardId" parameterType="int" resultMap="cardMap">
+			select id, password, surplus from t_card where id=${cardId}
 		</select>
 </mapper>

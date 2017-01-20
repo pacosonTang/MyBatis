@@ -23,7 +23,8 @@ public class Main4_cascade {
 		stuMapper = session.getMapper(StudentMapper.class);
 		cardMapper = session.getMapper(CardMapper.class);
 		
-		testFindStudentByStuId(2);
+//		testFindStudentByStuId(2);
+		testfindCardByCardId(1);
 		session.commit(); // 千万不要忘记提交 sql 执行.
 		System.out.println("bingo.");
 	}
@@ -31,8 +32,8 @@ public class Main4_cascade {
 		Student stu = stuMapper.findStudentByStuId(id);
 		System.out.println(stu);
 	}
-	static void findCardByStuId(int id) {
-		Card card = cardMapper.findCardByStuId(id);
+	static void testfindCardByCardId(int id) {
+		Card card = cardMapper.findCardByCardId(id);
 		System.out.println(card);
 	}
 }

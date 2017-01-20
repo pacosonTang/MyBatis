@@ -1,12 +1,19 @@
 package com.mybatis.po;
 
+import java.math.BigDecimal;
+
+import org.apache.ibatis.type.Alias;
+
+@Alias("card") // 自定义别名
 public class Card {
 	private int id;
-	private int stuId;
+	private String password;
+	private double surplus;
 	
-	public Card(int id, int stuId) {
+	public Card(Integer id, String password, BigDecimal surplus) {
 		this.id = id;
-		this.stuId = stuId;
+		this.password = password;
+		this.surplus = surplus.doubleValue();
 	}
 	
 	public int getId() {
@@ -15,15 +22,20 @@ public class Card {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getStuId() {
-		return stuId;
+	public String getPassword() {
+		return password;
 	}
-	public void setStuId(int stuId) {
-		this.stuId = stuId;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-
+	public double getSurplus() {
+		return surplus;
+	}
+	public void setSurplus(double surplus) {
+		this.surplus = surplus;
+	}
 	@Override
 	public String toString() {
-		return "id = " + id + "stuId = " + stuId;
+		return "Card [id=" + id + ", password=" + password + ", surplus=" + surplus + "]";
 	}
 }
