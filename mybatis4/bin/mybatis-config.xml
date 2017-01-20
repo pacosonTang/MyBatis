@@ -61,8 +61,6 @@
 	
 	<!-- 映射器配置 -->
 	<mappers>
-		<mapper resource="com/mybatis/mapper/RoleMapper.xml" />
-		<mapper resource="com/mybatis/mapper/UserMapper.xml" />
-		<mapper resource="com/mybatis/mapper/PeopleMapper.xml" />
+		<package name="com/mybatis/mapper"/>
 	</mappers>
 </configuration>

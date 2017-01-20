@@ -3,14 +3,19 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.mybatis.mapper.RoleMapper">
-	<resultMap type="role" id="roleMap"> <!-- resultMap 提供了映射规则 -->
-		<constructor>
-			<idArg column="id" javaType="int"/>
-			<arg column="role_name" javaType="string"/>
-		</constructor>
+	
+	<!-- resultMap 提供了结果集映射规则 -->
+	<resultMap type="role" id="roleMap"> 
 		<id column="id" property="id" javaType="long" jdbcType="BIGINT" />
 		<result column="role_name" property="roleName" javaType="string" jdbcType="VARCHAR" />
 		<result column="note" property="note" typeHandler="com.mybatis.typeHandler.MyStringTypeHandler"/>
+	</resultMap>
+	<resultMap type="role" id="roleMap2"> <!-- resultMap 提供了映射规则 -->
+		<constructor> <!-- 构造器  -->
+			<idArg column="id" javaType="int"/>
+			<arg column="role_name" javaType="string"/>
+			<arg column="note" javaType="string"/>
+		</constructor>
 	</resultMap>
 	
 	<select id="getRole" parameterType="long" resultMap="roleMap">
@@ -28,9 +33,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 在 sql中 制定参数，即创建一个参数prefix  -->
 	<sql id="t_role_props">
-		#{prefix}.id, #{prefix}.role_name, #{prefix}.note
+		id, role_name, note
 	</sql>
-	<select id="getRoleBySqlElement" parameterType="long" resultMap="roleMap">
+	<select id="getRoleBySqlElement" parameterType="long" resultMap="roleMap2">
 		select 
 			<include refid="t_role_props">
 				<property name="prefix" value="r"/> 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mybatis.mapper.CardMapper">
+		<resultMap type="com.mybatis.po.Card" id="cardMap">
+			<id property="id" column="id"/>
+			<result property="stuId" column="stu_id"/>
+		</resultMap>
+		<select id="findCardByStuId" parameterType="int" resultMap="cardMap">
+			select id, stu_id from t_card where stu_id=${stuId}
+		</select>
+</mapper>
