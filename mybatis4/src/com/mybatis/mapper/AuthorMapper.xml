@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mybatis.mapper.AuthorMapper">
+		<resultMap type="Author" id="authorResult">
+			<id property="id" column="a_id"/>
+			<result property="name" column="a_name"/>
+		</resultMap>
+		<select id="findAuthorById" parameterType="int" resultMap="authorResult">
+			select id as a_id, name as a_name from t_author where id=#{authorId}
+		</select>
+</mapper>
