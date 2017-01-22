@@ -1,5 +1,8 @@
 package com.mybatis.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.mybatis.mapper.PostMapper;
@@ -24,15 +27,22 @@ public class Main4_cascade {
 		postMapper = session.getMapper(PostMapper.class);
 		
 //		testFindAuthorById(2);
-		testFindPostById(2);  // 一对一级联查询 
+//		testFindPostById(2);  // 一对一级联查询 
+//		testFindPostlistByAuthorId(2);
+		testFindAuthorById(2);
 		session.commit(); // 千万不要忘记提交 sql 执行.
 		System.out.println("bingo.");
 	}
-	static void testFindAuthorById(int id) {
-		Author author = authorMapper.findAuthorById(id);
-		System.out.println(author);
+	static void testFindAuthorById(int authorId) { // 一对多级联查询 (collection)
+		Author author = authorMapper.findAuthorById(authorId);
+		System.out.println(authorId);
 	}
-	static void testFindPostById(int id) {
+	static void testFindPostlistByAuthorId(int authorId) {
+		List<Post> list = postMapper.findPostlistByAuthorId(authorId);
+		for(Post p: list)
+			System.out.println(p);
+	}
+	static void testFindPostById(int id) { // 一对一 级联查询(association)
 		Post post = postMapper.findPostById(id);
 		System.out.println(post);
 	}

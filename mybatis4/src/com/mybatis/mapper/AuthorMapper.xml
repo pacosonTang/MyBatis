@@ -3,11 +3,24 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.mybatis.mapper.AuthorMapper">
+		<select id="findAuthorById" parameterType="int" resultMap="authorResult">
+			select 
+				a.id as a_id, 
+				a.name as a_name,
+				p.id as p_id,
+				p.name as p_name,
+				p.content as p_content
+			from t_author a left join t_post p on a.id=p.author_id 
+			where a.id=#{authorId}
+		</select>
+		
 		<resultMap type="Author" id="authorResult">
 			<id property="id" column="a_id"/>
-			<result property="name" column="a_name"/>
+			<result property="name" column="a_name" javaType="string" jdbcType="VARCHAR"/>
+			<!-- 方法1：使用resultMap实现联合 -->
+			<collection property="postlist" ofType="Post" column="a_id" javaType="ArrayList" 
+				select="com.mybatis.mapper.PostMapper.findPostlistByAuthorId" /> 
+			
 		</resultMap>
-		<select id="findAuthorById" parameterType="int" resultMap="authorResult">
-			select id as a_id, name as a_name from t_author where id=#{authorId}
-		</select>
+		
 </mapper>
