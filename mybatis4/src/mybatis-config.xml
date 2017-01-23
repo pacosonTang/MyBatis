@@ -12,6 +12,7 @@
 	 <!-- 方法二 -->
 	 <typeAliases> <!-- 自动扫描包下的类并自定义别名 -->
 	 	<package name="com.mybatis.po"/>
+	 	<package name="com.mybatis.vo"/>
 	</typeAliases>
 	
 	<!-- 配置枚举处理类 方法1 

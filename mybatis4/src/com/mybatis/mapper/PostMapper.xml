@@ -3,19 +3,16 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.mybatis.mapper.PostMapper">
-		<select id="findPostById" parameterType="int" resultMap="postResult">
+		<select id="findPostVOByPostId" parameterType="int" resultMap="postVOResult">
 			select 
 				p.id as p_id, 
 				p.name as p_name, 
-				p.content as p_content, 
-				p.author_id as p_author_id, 
-				a.id as a_id, 
-				a.name as a_name 
-			from t_post p left join t_author a on p.author_id = a.id 
-				where p.id=${postId}
+				p.content as p_content,
+				p.author_id as author_id
+			from t_post p where p.id=${postId}
 		</select>
 		
-		<resultMap type="Post" id="postResult">
+		<resultMap type="PostVO" id="postVOResult">
 			<id property="id" column="p_id"/>
 			<result property="name" column="p_name" javaType="string" jdbcType="VARCHAR"/>
 			<result property="content" column="p_content" javaType="string" jdbcType="VARCHAR"/>
@@ -25,9 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				<id property="name" column="a_name"/>
 			</association>
 			 -->
-			 
 			 <!-- 方法2: 使用 select 实现联合, 推荐使用这种方法 --> 
-			 <association property="author" column="p_author_id" select="com.mybatis.mapper.AuthorMapper.findAuthorById" />
+			 <association property="author" column="author_id" select="com.mybatis.mapper.AuthorMapper.findAuthorById" />
 		</resultMap>
 		
 		<select id="findPostlistByAuthorId" parameterType="int" resultMap="postResult">
@@ -37,4 +33,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				p.content as p_content 
 			from t_post p where p.author_id = #{authorId}
 		</select>
+		<resultMap type="Post" id="postResult">
+			<id property="id" column="p_id"/>
+			<result property="name" column="p_name" javaType="string" jdbcType="VARCHAR"/>
+			<result property="content" column="p_content" javaType="string" jdbcType="VARCHAR"/>
+		</resultMap>
 </mapper>

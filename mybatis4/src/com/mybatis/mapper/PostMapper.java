@@ -5,9 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.mybatis.po.Post;
+import com.mybatis.vo.PostVO;
 
 public interface PostMapper {
-	Post findPostById(@Param("postId")int postId);
+	PostVO findPostVOByPostId(@Param("postId")int postId);
 	
 	List<Post> findPostlistByAuthorId(@Param("authorId")int authorId);
 }
