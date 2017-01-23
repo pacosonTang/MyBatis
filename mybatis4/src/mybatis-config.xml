@@ -3,6 +3,14 @@
 <configuration>
 	<properties resource="jdbc.properties" />
 	
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>  
+		<!-- true启用延迟加载，使得关联属性都按需加载, 默认false禁用 -->
+		<setting name="lazyLoadingEnabled" value="true"/> 
+		<!-- aggresiveLazyLoading=true, 默认为层级加载, =false, 表示按需加载  -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
+	
 	<!-- 自定义别名：两种方法 -->
 	<!-- 方法一
 	<typeAliases>
@@ -26,9 +34,10 @@
 	<typeHandlers>
 		<package name="com.mybatis.typeHandler"/> 
 	</typeHandlers>
+	<!-- 
 	<objectFactory type="com.mybatis.objectFactory.MyObjectFactory">
 		<property name="name" value="MyObjectFactory"/>
-	</objectFactory>
+	</objectFactory>  -->
 	<!-- 环境配置 -->
 	<environments default="development">
 		<environment id="development">

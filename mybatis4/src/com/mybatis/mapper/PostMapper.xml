@@ -23,7 +23,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</association>
 			 -->
 			 <!-- 方法2: 使用 select 实现联合, 推荐使用这种方法 --> 
-			 <association property="author" column="author_id" select="com.mybatis.mapper.AuthorMapper.findAuthorById" />
+			 <association property="author" column="author_id" 
+			 	select="com.mybatis.mapper.AuthorMapper.findAuthorById" fetchType="lazy"/> 
+			 	<!-- fetchType=eager表即时加载, =lazy表延迟加载 -->
 		</resultMap>
 		
 		<select id="findPostlistByAuthorId" parameterType="int" resultMap="postResult">

@@ -11,19 +11,6 @@ public class User {
 	private Sex sex;
 	private String note;
 	
-	public User(String userName, Sex sex, String note) {
-		this.userName = userName;
-		this.sex = sex;
-		this.note = note;
-	}
-	
-	public User(Long id, String userName, Sex sex, String note) {
-		this.id = id;
-		this.userName = userName;
-		this.sex = sex;
-		this.note = note;
-	}
-	
 	public Long getId() {
 		return id;
 	}

@@ -4,10 +4,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.mybatis.mapper.UserMapper">
 	<resultMap type="user" id="userMap"> <!-- resultMap 提供了映射规则 -->
+		<!-- discriminator用于确定使用哪个 pojo对象来映射查询结果 -->
+		<discriminator javaType="int" column="sex">
+			<case value="0" resultMap="maleMap" />
+			<case value="1" resultMap="femaleMap" />
+		</discriminator>
+	</resultMap>
+	<resultMap type="MaleUser" id="maleMap">  
 		<id column="id" property="id" javaType="long" jdbcType="BIGINT" />
 		<result column="user_name" property="userName" javaType="string" jdbcType="VARCHAR" />
 		<result column="sex" property="sex" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<!--    
 		<result column="note" property="note" typeHandler="com.mybatis.typeHandler.MyStringTypeHandler"/>
+		 -->
+		 <result column="note" property="note" javaType="string" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap type="FemaleUser" id="femaleMap"> 
+		<id column="id" property="id" javaType="long" jdbcType="BIGINT" />
+		<result column="user_name" property="userName" javaType="string" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" /> 
+		<!-- 
+		<result column="note" property="note" typeHandler="com.mybatis.typeHandler.MyStringTypeHandler"/>
+		 -->
+		 <result column="note" property="note" javaType="string" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<select id="getUser" parameterType="long" resultMap="userMap">
