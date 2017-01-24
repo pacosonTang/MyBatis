@@ -11,6 +11,7 @@ import com.mybatis.mapper.RoleMapper;
 import com.mybatis.mapper.UserMapper;
 import com.mybatis.util.SqlSessionFactoryUtil;
 import com.mybatis.vo.AuthorVO;
+import com.mybatis.vo.PostVO;
 
 public class Main4_cache {
 	private SqlSession session;
@@ -34,9 +35,24 @@ public class Main4_cache {
 	}
 	
 	@Test
-	// 通过 authorId 查询 AuthorVO（级联查询多个对应的Post）
-	public void testFindAuthorVOByAuthorId() { // 一对多级联查询 (collection)
-		AuthorVO authorVO = authorMapper.findAuthorVOById(2);
-		System.out.println(authorVO);
+	public void testFindPostVOByPostId() { // 一对多级联查询 (collection)
+		PostVO postVO = postMapper.findPostVOByPostId(2);
+		postVO = postMapper.findPostVOByPostId(2);
+		System.out.println(postVO);
+		System.out.println("1st SqlSession = " + session.hashCode());
+		session.commit();
+		System.out.println("1st SqlSession = " + session.hashCode());
+		System.out.println("=== seperator line ===");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		session = SqlSessionFactoryUtil.openSqlSession();
+		postMapper = session.getMapper(PostMapper.class);
+		postVO = postMapper.findPostVOByPostId(2);
+		System.out.println("2nd SqlSession = " + session.hashCode());
+		System.out.println(postVO);
 	}
 }

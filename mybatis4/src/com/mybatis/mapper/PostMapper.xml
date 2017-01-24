@@ -3,6 +3,18 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.mybatis.mapper.PostMapper">
+ 		<!-- 开启缓存, eviction=回收算法, flushInterval=刷新缓存间隔时间, size=缓存中对象个数,readOnly=只读-->
+		<cache eviction="LRU" flushInterval="100000" size="1024" readOnly="true" />
+		<!-- 自定义缓存设置 
+		<cache type="com.mybatis.cache.MyCache">
+			<property name="host" value="localhost"/>
+			<property name="port" value="8080"/>
+		</cache> -->
+		
+		<!-- 自定义缓存中: 定制SQL执行缓存策略(useCache是否需要使用缓存, flushCache插入后是否需要刷新缓存)
+			<select id="findPostVOByPostId" parameterType="int" resultMap="postVOResult"
+						flushCache="false" useCache="true">
+		 -->
 		<select id="findPostVOByPostId" parameterType="int" resultMap="postVOResult">
 			select 
 				p.id as p_id, 

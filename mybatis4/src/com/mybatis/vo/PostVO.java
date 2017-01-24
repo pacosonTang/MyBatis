@@ -1,12 +1,15 @@
 package com.mybatis.vo;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 import com.mybatis.po.Author;
 
 //PostVO 是 Post对应的 view object 对象（表现层对象)
 @Alias("PostVO") // 自定义别名
-public class PostVO {
+public class PostVO implements Serializable {
+	private static final long serialVersionUID = 2501941095335053627L;
 	private int id;
 	private String name;
 	private String content;

@@ -26,7 +26,6 @@ public class SqlSessionFactoryUtil {
 				factory = new SqlSessionFactoryBuilder().build(is);
 			}
 		}
-		
 		return factory;
 	}
 	public static SqlSession openSqlSession() {

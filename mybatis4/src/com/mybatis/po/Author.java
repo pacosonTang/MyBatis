@@ -1,9 +1,12 @@
 package com.mybatis.po;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 @Alias("Author") // 自定义别名
-public class Author {
+public class Author implements Serializable{
+	private static final long serialVersionUID = 7911172396199243350L;
 	private int id;
 	private String name;
 	

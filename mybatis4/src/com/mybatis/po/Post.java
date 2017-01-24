@@ -1,9 +1,12 @@
 package com.mybatis.po;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 @Alias("Post") // 自定义别名
-public class Post {
+public class Post implements Serializable{
+	private static final long serialVersionUID = 837749027072755884L;
 	private int id;
 	private String name;
 	private String content;
