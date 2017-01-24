@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="jdbc.properties" />
+	
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>  
+		<!-- true启用延迟加载，使得关联属性都按需加载, 默认false禁用 -->
+		<setting name="lazyLoadingEnabled" value="true"/> 
+		<!-- aggresiveLazyLoading=true, 默认为层级加载, =false, 表示按需加载  -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
+	
+	<!-- 自定义别名：两种方法 -->
+	<!-- 方法一
+	<typeAliases>
+		<typeAlias type="com.mybatis.po.Role" alias="role"/>
+	</typeAliases>
+	 -->
+	 <!-- 方法二 -->
+	 <typeAliases> <!-- 自动扫描包下的类并自定义别名 -->
+	 	<package name="com.mybatis.po"/>
+	 	<package name="com.mybatis.vo"/>
+	</typeAliases>
+	
+	<!-- 配置枚举处理类 方法1 
+	<typeHandlers> 
+		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" 
+			javaType="com.mybatis.enums.Sex"/>
+	</typeHandlers>
+	-->
+	
+	<!-- 配置枚举处理类 方法2： 通过扫描自动注册 typeHandler -->
+	<typeHandlers>
+		<package name="com.mybatis.typeHandler"/> 
+	</typeHandlers>
+	<!-- 
+	<objectFactory type="com.mybatis.objectFactory.MyObjectFactory">
+		<property name="name" value="MyObjectFactory"/>
+	</objectFactory>  -->
+	<!-- 环境配置 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+		<environment id="production">
+			<transactionManager type="JDBC">
+				<property name="autoCommit" value="false" />
+			</transactionManager>
+			<dataSource type="com.mybatis.datasource.DbcpDataSourceFactory">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- 自定义数据库标签 -->
+	<databaseIdProvider type="com.mybatis.databaseIdProvider.MyDatabaseIdProvider">
+		<property name="SQL Server" value="sqlserver"/>
+		<property name="MySQL" value="mysql"/>
+		<property name="Oracle" value="oracle"/>
+	</databaseIdProvider>
+	
+	<!-- 映射器配置 -->
+	<mappers>
+		<package name="com/mybatis/mapper"/>
+	</mappers>
+</configuration>
