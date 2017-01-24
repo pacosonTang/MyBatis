@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mybatis.mapper.UserMapper">
+	<resultMap type="user" id="userMap"> <!-- resultMap 提供了映射规则 -->
+		<!-- discriminator用于确定使用哪个 pojo对象来映射查询结果 -->
+		<discriminator javaType="int" column="sex">
+			<case value="0" resultMap="unknownMap" />
+			<case value="1" resultMap="maleMap" />
+			<case value="2" resultMap="femaleMap" />
+		</discriminator>
+	</resultMap>
+	
+	<resultMap type="User" id="BaseUserMap">
+		<id column="id" property="id" javaType="long" jdbcType="BIGINT" />
+		<result column="user_name" property="userName" javaType="string" jdbcType="VARCHAR" />
+		<result column="note" property="note" javaType="string" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+	</resultMap>
+	<resultMap type="UnknownUser" id="unknownMap" extends="BaseUserMap" />
+	<resultMap type="MaleUser" id="maleMap" extends="BaseUserMap" />
+	<resultMap type="FemaleUser" id="femaleMap" extends="BaseUserMap" /> 
+	
+	<select id="getUser" parameterType="long" resultMap="userMap">
+		select * from t_user where id = #{id}
+	</select>
+	
+	<!-- chapter4: parameterType输入参数, resultType 输出参数 -->
+	<select id="countSurname" parameterType="string" resultType="int">
+		select count(*) from t_user where user_name like concat(#{surname}, '%')
+	</select>
+	
+	<insert id="insertUser" parameterType="user" >
+		insert into t_user(user_name, sex, note) values (#{userName}, 
+			#{sex, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}, #{note})
+	</insert>
+	
+	<delete id="deleteUser" parameterType="long">
+		delete from t_user where id = #{id}
+	</delete>
+	
+	<select id="findUserBySex" resultMap="userMap">
+		select * from t_user where sex in 
+		<foreach item="sex" index="index"  collection="sexlist" open="(" separator="," close=")">
+			#{sex}
+		</foreach>
+	</select>
+</mapper>
